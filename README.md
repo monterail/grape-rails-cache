@@ -1,10 +1,14 @@
-# Grape::Rails::Cache
+# HTTP and server side cache integration for Grape and Rails
 
-TODO: Write a gem description
+## Features
+
+- HTTP Headers cache, ETag, Cache-Control, If-None-Match
+- Server side cache for response body
+
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your rails application's Gemfile:
 
     gem 'grape-rails-cache'
 
@@ -12,13 +16,25 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install grape-rails-cache
-
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+module MyApi < Grape::API
+  format :json
+
+  include Grape::Rails::Cache
+
+  resources :posts do
+    desc "Return a post"
+    get ":id" do
+      post = Post.find(params[:id])
+      cache(key: "api:posts:#{post.id}", etag: post.updated_at, expires_in: 2.hours) do
+        post # post.extend(PostRepresenter) etc, any code that renders response
+      end
+    end
+  end
+end
+```
 
 ## Contributing
 
