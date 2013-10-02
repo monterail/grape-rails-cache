@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["tymon.tobolski@monterail.com"]
   spec.description   = %q{HTTP and server side cache integration for Grape and Rails}
   spec.summary       = %q{HTTP and server side cache integration for Grape and Rails}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/monterail/grape-rails-cache"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
