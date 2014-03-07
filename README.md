@@ -10,11 +10,15 @@
 
 Add this line to your rails application's Gemfile:
 
-    gem 'grape-rails-cache'
+```ruby
+gem 'grape-rails-cache'
+```
 
 And then execute:
 
-    $ bundle
+```bash
+$ bundle
+```
 
 ## Usage
 
