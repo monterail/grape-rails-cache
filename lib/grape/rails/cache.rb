@@ -26,7 +26,6 @@ module Grape
               cache_control << "max-age=#{seconds}"
             end
             if options[:public]
-              cache_control.delete("private")
               cache_control << "public"
             else
               cache_control << "private"
