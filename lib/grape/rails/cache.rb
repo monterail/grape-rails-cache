@@ -55,7 +55,7 @@ module Grape
             end
 
             # Try to fetch from server side cache
-            ::Rails.cache.fetch(cache_key, raw: true, expires_in: opts[:cache_expires_in] || opts[:expires_in]) do
+            ::Rails.cache.fetch(cache_key, raw: true, expires_in: opts[:cache_store_expires_in] || opts[:expires_in]) do
               block.call.to_json
             end
           end
