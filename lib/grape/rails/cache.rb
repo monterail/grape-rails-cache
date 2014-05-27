@@ -11,9 +11,7 @@ module Grape
 
         helpers do
           def compare_etag(etag)
-            ::Rails.logger.debug("ETAG BEFORE: #{etag.inspect}")
             etag = Digest::SHA1.hexdigest(etag.to_s)
-            ::Rails.logger.debug("ETAG AFTER: #{etag} == #{request.headers["If-None-Match"]}")
             error!("Not Modified", 304) if request.headers["If-None-Match"] == etag
 
             header "ETag", etag
