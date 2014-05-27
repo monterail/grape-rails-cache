@@ -20,8 +20,11 @@ module Grape
           # Based on actionpack/lib/action_controller/base.rb, line 1216
           def expires_in(seconds, options = {})
             cache_control = []
-            cache_control << "max-age=#{seconds}"
-            cache_control.delete("no-cache")
+            if seconds == 0
+              cache_control << "no-cache"
+            else
+              cache_control << "max-age=#{seconds}"
+            end
             if options[:public]
               cache_control.delete("private")
               cache_control << "public"
@@ -52,7 +55,7 @@ module Grape
             end
 
             # Try to fetch from server side cache
-            ::Rails.cache.fetch(cache_key, raw: true, expires_in: opts[:expires_in]) do
+            ::Rails.cache.fetch(cache_key, raw: true, expires_in: opts[:cache_expires_in] || opts[:expires_in]) do
               block.call.to_json
             end
           end
