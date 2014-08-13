@@ -46,7 +46,7 @@ module Grape
             cache_key = opts[:key]
 
             # Set Cache-Control
-            expires_in(opts[:expires_in] || default_expire_time, public: true)
+            expires_in(opts[:expires_in] || default_expire_time, public: opts.fetch(:public, true) )
 
             if opts[:etag]
               cache_key += ActiveSupport::Cache.expand_cache_key(opts[:etag])
