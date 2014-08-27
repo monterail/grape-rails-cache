@@ -1,4 +1,4 @@
-# HTTP and server side cache integration for Grape and Rails
+# HTTP and server side cache integration for Grape and Rails [![Gem Version](https://badge.fury.io/rb/grape-rails-cache.png)](http://badge.fury.io/rb/grape-rails-cache)
 
 ## Features
 
