@@ -42,6 +42,8 @@ module Grape
           end
 
           def cache(opts = {}, &block)
+            opts = Uber::Options.new(opts.reverse_merge(if: true)).evaluate(self)
+
             # HTTP Cache
             cache_key = opts[:key]
 
@@ -55,7 +57,12 @@ module Grape
 
             # Try to fetch from server side cache
             cache_store_expire_time = opts[:cache_store_expires_in] || opts[:expires_in] || default_expire_time
-            ::Rails.cache.fetch(cache_key, raw: true, expires_in: cache_store_expire_time) do
+
+            if opts[:if]
+              ::Rails.cache.fetch(cache_key, raw: true, expires_in: cache_store_expire_time) do
+                block.call.to_json
+              end
+            else
               block.call.to_json
             end
           end
