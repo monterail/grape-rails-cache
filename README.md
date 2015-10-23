@@ -32,12 +32,18 @@ module MyApi < Grape::API
     desc "Return a post"
     get ":id" do
       post = Post.find(params[:id])
-      cache(key: "api:posts:#{post.id}", etag: post.updated_at, expires_in: 2.hours) do
+      cache(key: "api:posts:#{post.id}", etag: post.updated_at, expires_in: 2.hours, if: -> { !params[:onair] }) do
         post # post.extend(PostRepresenter) etc, any code that renders response
       end
     end
   end
 end
+```
+
+You can use blocks and symbols as values for `cache` params they will be evaluated in context of `Grape::Endpoint` (see [Uber gem](https://github.com/apotonick/uber#dynamic-options))
+
+```ruby
+cache(key: -> { "#{request.path}?#{declared_params.except(:client_d).to_json}" }
 ```
 
 ## Contributing
