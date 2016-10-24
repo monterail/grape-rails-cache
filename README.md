@@ -1,17 +1,15 @@
-# HTTP and server side cache integration for Grape and Rails [![Gem Version](https://badge.fury.io/rb/grape-rails-cache.png)](http://badge.fury.io/rb/grape-rails-cache)
+# Grape Surrogate Cache
 
-## Features
+A gem for easily caching responses using the [Surrogate-Control cache header](https://www.w3.org/TR/edge-arch/) with [Grape](https://github.com/ruby-grape/grape) and [Rails](https://github.com/rails/rails).
 
-- HTTP Headers cache, ETag, Cache-Control, If-None-Match
-- Server side cache for response body
-
+Based on [Grape Rails Cache](https://github.com/monterail/grape-rails-cache).
 
 ## Installation
 
 Add this line to your rails application's Gemfile:
 
 ```ruby
-gem 'grape-rails-cache'
+gem 'grape-rails-cache', github: "unsplash/grape-rails-cache"
 ```
 
 And then execute:
@@ -32,18 +30,10 @@ module MyApi < Grape::API
     desc "Return a post"
     get ":id" do
       post = Post.find(params[:id])
-      cache(key: "api:posts:#{post.id}", etag: post.updated_at, expires_in: 2.hours) do
+      cache(key: "api:posts:#{post.id}", expires_in: 2.hours, stale_for: 24.hours) do
         post # post.extend(PostRepresenter) etc, any code that renders response
       end
     end
   end
 end
 ```
-
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
