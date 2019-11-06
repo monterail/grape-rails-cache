@@ -59,7 +59,7 @@ module Grape
               block.call.to_json
             else
               ::Rails.cache.fetch(cache_key, raw: true, expires_in: cache_store_expire_time) do
-                block.call.to_json
+                block.call.to_json.force_encoding('ASCII-8BIT')
               end
             end
           end
